@@ -7,15 +7,15 @@ function ytpp_settings() {
     global $wpdb;
     ?>
     <div class="wrap">
-        <h2><?php _e( 'YouTube Playlist Player Settings', 'youtube-playlist-player' ); ?></h2>
+        <h2><?php esc_html_e( 'YouTube Playlist Player Settings', 'youtube-playlist-player' ); ?></h2>
 
-        <?php $tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'dashboard'; ?>
+        <?php $tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'dashboard'; ?>
 
         <h2 class="nav-tab-wrapper">
-            <a href="<?php echo admin_url( 'admin.php?page=ytpp&tab=dashboard' ); ?>" class="nav-tab <?php echo $tab === 'dashboard' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Dashboard', 'youtube-playlist-player' ); ?></a>
-            <a href="<?php echo admin_url( 'admin.php?page=ytpp&tab=settings' ); ?>" class="nav-tab <?php echo $tab === 'settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'General Settings', 'youtube-playlist-player' ); ?></a>
-            <a href="<?php echo admin_url( 'admin.php?page=ytpp&tab=api' ); ?>" class="nav-tab <?php echo $tab === 'api' ? 'nav-tab-active' : ''; ?>"><?php _e( 'YouTube API', 'youtube-playlist-player' ); ?></a>
-            <a href="<?php echo admin_url( 'admin.php?page=ytpp&tab=help' ); ?>" class="nav-tab <?php echo $tab === 'help' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Help/Usage', 'youtube-playlist-player' ); ?></a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=dashboard' ) ); ?>" class="nav-tab <?php echo $tab === 'dashboard' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Dashboard', 'youtube-playlist-player' ); ?></a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=settings' ) ); ?>" class="nav-tab <?php echo $tab === 'settings' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'General Settings', 'youtube-playlist-player' ); ?></a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=api' ) ); ?>" class="nav-tab <?php echo $tab === 'api' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'YouTube API', 'youtube-playlist-player' ); ?></a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=help' ) ); ?>" class="nav-tab <?php echo $tab === 'help' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Help/Usage', 'youtube-playlist-player' ); ?></a>
         </h2>
 
         <?php if ( (string) $tab === 'dashboard' ) { ?>
@@ -32,7 +32,7 @@ function ytpp_settings() {
                     </p>
                 </div>
 
-                <h3><?php _e( 'About YouTube Playlist Player', 'youtube-playlist-player' ); ?></h3>
+                <h3><?php esc_html_e( 'About YouTube Playlist Player', 'youtube-playlist-player' ); ?></h3>
                 <p>Display a YouTube player (with an optional playlist) on any post or page using a simple shortcode. The plugin supports a static YouTube player (no video title) and a dynamic one (video title) using the YouTube Data API v3.</p>
 
                 <p>Embedded players must have a viewport that is at least 200px by 200px. If the player displays controls, it must be large enough to fully display the controls without shrinking the viewport below the minimum size. We recommend 16:9 players be at least 480 pixels wide and 270 pixels tall.</p>
@@ -45,40 +45,20 @@ function ytpp_settings() {
 
                 <hr>
                 <p>For support, feature requests and bug reporting, please visit the <a href="https://getbutterfly.com/wordpress-plugins/youtube-playlist-player/" rel="external">official website</a>. If you enjoy this plugin, don't forget to rate it. Also, try our other WordPress plugins at <a href="https://getbutterfly.com/wordpress-plugins/" rel="external" target="_blank">getButterfly.com</a>.</p>
-                <p>&copy;<?php echo gmdate( 'Y' ); ?> <a href="https://getbutterfly.com/" rel="external"><strong>getButterfly</strong>.com</a> &middot; <small>Code wrangling since 2005</small></p>
+                <p>&copy;<?php echo intval( gmdate( 'Y' ) ); ?> <a href="https://getbutterfly.com/" rel="external"><strong>getButterfly</strong>.com</a> &middot; <small>Code wrangling since 2005</small></p>
             </div>
             <?php
         } elseif ( (string) $tab === 'settings' ) {
-            if ( isset( $_POST['info_update1'] ) && wp_verify_nonce( $_POST['yypp_save_settings'], 'yypp_save_settings' ) && current_user_can( 'manage_options' ) ) {
-                if ( isset( $_POST['ytpp_rel'] ) ) {
-                    update_option( 'ytpp_rel', (int) sanitize_text_field( $_POST['ytpp_rel'] ) );
-                } else {
-                    update_option( 'ytpp_rel', 0 );
-                }
-
-                if ( isset( $_POST['ytpp_info'] ) ) {
-                    update_option( 'ytpp_info', (int) sanitize_text_field( $_POST['ytpp_info'] ) );
-                } else {
-                    update_option( 'ytpp_info', 0 );
-                }
-
-                if ( isset( $_POST['ytpp_controls'] ) ) {
-                    update_option( 'ytpp_controls', (int) sanitize_text_field( $_POST['ytpp_controls'] ) );
-                } else {
-                    update_option( 'ytpp_controls', 0 );
-                }
-
-                if ( isset( $_POST['ytpp_privacy'] ) ) {
-                    update_option( 'ytpp_privacy', (int) sanitize_text_field( $_POST['ytpp_privacy'] ) );
-                } else {
-                    update_option( 'ytpp_privacy', 0 );
-                }
-
-                if ( isset( $_POST['ytpp_iframe_fix'] ) ) {
-                    update_option( 'ytpp_iframe_fix', (int) sanitize_text_field( $_POST['ytpp_iframe_fix'] ) );
-                } else {
-                    update_option( 'ytpp_iframe_fix', 0 );
-                }
+            if (
+                isset( $_POST['info_update1'], $_POST['yypp_save_settings'] ) &&
+                wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['yypp_save_settings'] ) ), 'yypp_save_settings' ) &&
+                current_user_can( 'manage_options' )
+            ) {
+                update_option( 'ytpp_rel', isset( $_POST['ytpp_rel'] ) ? intval( $_POST['ytpp_rel'] ) : 0 );
+                update_option( 'ytpp_info', isset( $_POST['ytpp_info'] ) ? intval( $_POST['ytpp_info'] ) : 0 );
+                update_option( 'ytpp_controls', isset( $_POST['ytpp_controls'] ) ? intval( $_POST['ytpp_controls'] ) : 0 );
+                update_option( 'ytpp_privacy', isset( $_POST['ytpp_privacy'] ) ? intval( $_POST['ytpp_privacy'] ) : 0 );
+                update_option( 'ytpp_iframe_fix', isset( $_POST['ytpp_iframe_fix'] ) ? intval( $_POST['ytpp_iframe_fix'] ) : 0 );
 
                 echo '<div class="updated notice is-dismissible"><p>Settings updated!</p></div>';
             }
@@ -86,7 +66,7 @@ function ytpp_settings() {
             <form method="post" action="">
                 <?php wp_nonce_field( 'yypp_save_settings', 'yypp_save_settings' ); ?>
 
-                <h3><?php _e( 'Player Settings', 'youtube-playlist-player' ); ?></h3>
+                <h3><?php esc_html_e( 'Player Settings', 'youtube-playlist-player' ); ?></h3>
 
                 <p>
                     <input type="checkbox" class="wppd-ui-toggle" name="ytpp_rel" id="ytpp_rel" value="1" <?php checked( 1, (int) get_option( 'ytpp_rel' ) ); ?>> <label for="ytpp_rel">Show suggested videos when the video finishes</label>
@@ -102,19 +82,23 @@ function ytpp_settings() {
                     <br><small>When you turn on privacy-enhanced mode, YouTube won't store information about visitors on your website unless they play the video.</small>
                 </p>
 
-                <h3><?php _e( 'Display Settings', 'youtube-playlist-player' ); ?></h3>
+                <h3><?php esc_html_e( 'Display Settings', 'youtube-playlist-player' ); ?></h3>
 
                 <p>
                     <input type="checkbox" class="wppd-ui-toggle" name="ytpp_iframe_fix" id="ytpp_iframe_fix" value="1" <?php checked( 1, (int) get_option( 'ytpp_iframe_fix' ) ); ?>> <label for="ytpp_iframe_fix">Enable fix for older browsers</label>
                     <br><small>Use this option to fix player height on older browsers, or browsers not supporting the <code>aspect-ratio</code> CSS property.</small>
                 </p>                
 
-                <p><input type="submit" name="info_update1" class="button button-primary" value="<?php _e( 'Save Changes', 'youtube-playlist-player' ); ?>"></p>
+                <p><input type="submit" name="info_update1" class="button button-primary" value="<?php esc_html_e( 'Save Changes', 'youtube-playlist-player' ); ?>"></p>
             </form>
             <?php
         } elseif ( (string) $tab === 'api' ) {
-            if ( isset( $_POST['info_update1'] ) && wp_verify_nonce( $_POST['yypp_save_settings'], 'yypp_save_settings' ) && current_user_can( 'manage_options' ) ) {
-                update_option( 'ytppYouTubeApi', (string) sanitize_text_field( $_POST['ytppYouTubeApi'] ) );
+            if (
+                isset( $_POST['info_update1'], $_POST['yypp_save_settings'] ) &&
+                wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['yypp_save_settings'] ) ), 'yypp_save_settings' ) &&
+                current_user_can( 'manage_options' )
+            ) {
+                update_option( 'ytppYouTubeApi', isset( $_POST['ytppYouTubeApi'] ) ? sanitize_text_field( wp_unslash( $_POST['ytppYouTubeApi'] ) ) : '' );
 
                 echo '<div class="updated notice is-dismissible"><p>Settings updated!</p></div>';
             }
@@ -122,20 +106,20 @@ function ytpp_settings() {
             <form method="post" action="">
                 <?php wp_nonce_field( 'yypp_save_settings', 'yypp_save_settings' ); ?>
 
-                <h3><?php _e( 'YouTube API Settings', 'youtube-playlist-player' ); ?></h3>
+                <h3><?php esc_html_e( 'YouTube API Settings', 'youtube-playlist-player' ); ?></h3>
 
                 <p>
-                    <input type="text" name="ytppYouTubeApi" id="ytppYouTubeApi" value="<?php echo get_option( 'ytppYouTubeApi' ); ?>" class="regular-text" placeholder="YouTube API"> <label for="ytppYouTubeApi">YouTube API</label>
+                    <input type="text" name="ytppYouTubeApi" id="ytppYouTubeApi" value="<?php echo esc_attr( get_option( 'ytppYouTubeApi' ) ); ?>" class="regular-text" placeholder="YouTube API"> <label for="ytppYouTubeApi">YouTube API</label>
                     <br><small>See the <a href="https://developers.google.com/youtube/v3/docs/" rel="external">YouTube API documentation here</a>.</small>
                 </p>
 
-                <p><input type="submit" name="info_update1" class="button button-primary" value="<?php _e( 'Save Changes', 'youtube-playlist-player' ); ?>"></p>
+                <p><input type="submit" name="info_update1" class="button button-primary" value="<?php esc_html_e( 'Save Changes', 'youtube-playlist-player' ); ?>"></p>
             </form>
             <?php
         } elseif ( (string) $tab === 'help' ) {
             ?>
             <div id="poststuff">
-                <h3><?php _e( 'Help &amp; Usage Details', 'youtube-playlist-player' ); ?></h3>
+                <h3><?php esc_html_e( 'Help &amp; Usage Details', 'youtube-playlist-player' ); ?></h3>
                 <h4>Use one of the shortcodes below to add the YouTube player</h4>
                 <p>Static YouTube player: <code>[yt_playlist mainid="xcJtL7QggTI" vdid="xcJtL7QggTI,AheYbU8J5Tc,X0zGS4-UKgg,74SZXCQb44s,2M0XCH9q3YI"]</code></p>
                 <p>Dynamic YouTube player (YouTube Data API v3): <code>[yt_playlist_v3 mainid="xcJtL7QggTI" vdid="xcJtL7QggTI,AheYbU8J5Tc,X0zGS4-UKgg,74SZXCQb44s,2M0XCH9q3YI"]</code></p>

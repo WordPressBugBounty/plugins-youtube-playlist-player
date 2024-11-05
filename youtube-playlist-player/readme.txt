@@ -3,9 +3,9 @@ Contributors: butterflymedia
 Donate link: https://www.buymeacoffee.com/wolffe
 Tags: youtube, player, playlist, video, carousel
 Requires at least: 4.9
-Tested up to: 6.6.2
+Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 4.7.1
+Stable tag: 4.7.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -60,6 +60,10 @@ Check out more [WordPress plugins here](https://getbutterfly.com/wordpress-plugi
 6. Help/Usage
 
 == Changelog ==
+
+= 4.7.2 =
+* Update WordPress compatibility
+* Increase plugin security by sanitizing and unslashing options
 
 = 4.7.1 =
 * FIX: Fixed a missing JavaScript dependency

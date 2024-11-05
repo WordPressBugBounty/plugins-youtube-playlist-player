@@ -30,19 +30,19 @@
              * this is the trick to emulate the video ratio
              */
             iframe.style.position = 'absolute';
-            iframe.style.top      = '0';
-            iframe.style.left     = '0';
-            iframe.width          = '100%';
-            iframe.height         = '100%';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.width = '100%';
+            iframe.height = '100%';
 
             /**
              * Wrap the iframe in a new <div> which uses a dynamically fetched
              * padding-top property based on the video's w/h dimensions
              */
-            let wrap              = document.createElement('div');
-            wrap.className        = 'fluid-vids';
-            wrap.style.width      = '100%';
-            wrap.style.position   = 'relative';
+            let wrap = document.createElement('div');
+            wrap.className = 'fluid-vids';
+            wrap.style.width = '100%';
+            wrap.style.position = 'relative';
             wrap.style.paddingTop = videoRatio + '%';
 
             /**

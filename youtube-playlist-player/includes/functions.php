@@ -72,10 +72,6 @@ function ytpp_player_show( $atts ) {
         <div id="ytpp-playlist-container" class="ytpp-playlist-container" data-playlist="' . $vd_id . '"><div id="ytplayer_div2"></div></div>
     </div>';
 
-    // There are no filters to be applied for this shortcode
-    // Also fixes an issue with the "Rate my post" plugin
-    // $out = apply_filters( 'the_content', $out );
-
     return $out;
 }
 
@@ -140,8 +136,6 @@ function ytpp_get_channel_videos( $channel_ids, $max_results = 100 ) {
                     $thumbnail = $item->snippet->thumbnails->maxres->url;
                 } elseif ( isset( $item->snippet->thumbnails->standard ) ) {
                     $thumbnail = $item->snippet->thumbnails->standard->url;
-                //} elseif ( isset( $item->snippet->thumbnails->high ) ) {
-                //    $thumbnail = $item->snippet->thumbnails->high->url;
                 } elseif ( isset( $item->snippet->thumbnails->medium ) ) {
                     $thumbnail = $item->snippet->thumbnails->medium->url;
                 }
@@ -197,4 +191,3 @@ function ytpp_feed_youtube( $atts ) {
 
     return $out;
 }
-

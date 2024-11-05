@@ -3,7 +3,7 @@
  * Plugin Name: YouTube Playlist Player
  * Plugin URI: https://getbutterfly.com/wordpress-plugins/
  * Description: Display a YouTube player (with an optional playlist) on any post or page using a simple shortcode.
- * Version: 4.7.1
+ * Version: 4.7.2
  * Author: Ciprian Popescu
  * Author URI: https://getbutterfly.com/
  * License: GPL3
@@ -31,19 +31,19 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-include 'includes/functions.php';
-include 'includes/settings.php';
+require 'includes/functions.php';
+require 'includes/settings.php';
 
 /**
  * Register/enqueue plugin scripts and styles (front-end)
  */
 function ytpp_pss() {
-    wp_register_style( 'ytpp', plugins_url( 'css/style.min.css', __FILE__ ), [], '4.7.1' );
+    wp_register_style( 'ytpp', plugins_url( 'css/style.min.css', __FILE__ ), [], '4.7.2' );
 
-    wp_register_script( 'ytpp', plugins_url( 'js/ytpp-main.min.js', __FILE__ ), [], '4.7.1', true );
+    wp_register_script( 'ytpp', plugins_url( 'js/ytpp-main.min.js', __FILE__ ), [], '4.7.2', true );
 
     if ( (int) get_option( 'ytpp_iframe_fix' ) === 1 ) {
-        wp_register_script( 'ytpp-fluid-vids', plugins_url( 'js/ytpp-fluid-vids.min.js', __FILE__ ), [], '4.7.1', true );
+        wp_register_script( 'ytpp-fluid-vids', plugins_url( 'js/ytpp-fluid-vids.min.js', __FILE__ ), [], '4.7.2', true );
     }
 }
 
@@ -51,7 +51,7 @@ function ytpp_pss() {
  * Register/enqueue plugin scripts and styles (back-end)
  */
 function ytpp_enqueue_scripts() {
-    wp_enqueue_style( 'ytpp', plugins_url( 'css/admin.css', __FILE__ ), [], '4.7.1' );
+    wp_enqueue_style( 'ytpp', plugins_url( 'css/admin.css', __FILE__ ), [], '4.7.2' );
 }
 
 

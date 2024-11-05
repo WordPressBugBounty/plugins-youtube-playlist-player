@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const thumbnails = document.querySelectorAll('.ytpp-video-thumbnail');
 
         thumbnails.forEach((thumbnail) => {
-            thumbnail.addEventListener("click", function(event) {
+            thumbnail.addEventListener("click", function (event) {
                 event.preventDefault();
 
                 const videoId = this.dataset.videoId;
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const lightboxContainer = document.getElementById('ytpp-lightbox-container');
 
-        lightboxContainer.addEventListener('click', function(event) {
+        lightboxContainer.addEventListener('click', function (event) {
             // Check if the clicked element is the lightbox container or its descendant elements
             if (
                 event.target === lightboxContainer ||
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const lightboxCloseBtn = document.getElementById('ytpp-lightbox-close-btn');
 
-        lightboxCloseBtn.addEventListener('click', function() {
+        lightboxCloseBtn.addEventListener('click', function () {
             lightboxContainer.style.display = 'none';
             const lightboxVideo = document.getElementById('ytpp-lightbox-video');
             lightboxVideo.innerHTML = '';
