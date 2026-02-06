@@ -29,7 +29,7 @@ function ytpp_uninstall() {
  * Add plugin options page
  */
 function ytpp_admin() {
-    add_options_page( __( 'YouTube Playlist Player', 'youtube-playlist-player' ), __( 'YouTube Playlist Player', 'youtube-playlist-player' ), 'manage_options', 'ytpp', 'ytpp_settings' );
+    add_options_page( __( 'Playlist Player for YouTube', 'youtube-playlist-player' ), __( 'Playlist Player for YouTube', 'youtube-playlist-player' ), 'manage_options', 'ytpp', 'ytpp_settings' );
 }
 
 /*
@@ -68,7 +68,7 @@ function ytpp_player_show( $atts ) {
     }
 
     $out = '<div id="yt-container" class="ytpp-main">
-        <a name="ytplayer" class="f"><iframe name="ytpl-frame" id="ytpl-frame" type="text/html" rel="' . $main_id . '" src="' . $ytpp_youtube_uri . '/embed/' . $main_id . '?rel=' . $ytpp_rel . '&hd=1&version=3&iv_load_policy=3&showinfo=' . $ytpp_info . '&controls=' . $ytpp_controls . '&origin=' . home_url() . '" width="560" height="315" loading="lazy"></iframe></a>
+        <a name="ytplayer" class="f"><iframe name="ytpl-frame" id="ytpl-frame" type="text/html" rel="' . $main_id . '" src="' . $ytpp_youtube_uri . '/embed/' . $main_id . '?rel=' . $ytpp_rel . '&hd=1&version=3&iv_load_policy=3&showinfo=' . $ytpp_info . '&controls=' . $ytpp_controls . '&origin=' . home_url() . '" width="560" height="315" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></a>
         <div id="ytpp-playlist-container" class="ytpp-playlist-container" data-playlist="' . $vd_id . '"><div id="ytplayer_div2"></div></div>
     </div>';
 
@@ -109,8 +109,8 @@ function ytpp_apiplayer_show( $atts ) {
     }
 
     return '<div class="yt-api-container ytpp-main" data-mainid="' . $main_id . '" data-vdid="' . $vd_id . '" data-apikey="' . $ytpp_youtube_api . '">
-        <iframe id="vid_frame" src="' . $ytpp_youtube_uri . '/embed/' . $main_id . '?rel=' . $ytpp_rel . '&showinfo=' . $ytpp_info . '&autohide=1&controls=' . $ytpp_controls . '" width="560" height="315" loading="lazy"></iframe>
-
+        <iframe id="vid_frame" src="' . $ytpp_youtube_uri . '/embed/' . $main_id . '?rel=' . $ytpp_rel . '&showinfo=' . $ytpp_info . '&autohide=1&controls=' . $ytpp_controls . '" width="560" height="315" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        
         <div class="yt-api-video-list"></div>
     </div>';
 }

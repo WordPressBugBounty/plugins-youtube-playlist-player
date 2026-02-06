@@ -21,7 +21,8 @@ function ytplayer_render_playlist(what, howMany) {
         a.target = 'ytpl-frame';
 
         a.onclick = (j => {
-            return function () {
+            return function (event) {
+                event.preventDefault();
                 ytplayer_playitem = j;
 
                 let o = document.getElementById('ytplayer_object');
@@ -29,6 +30,11 @@ function ytplayer_render_playlist(what, howMany) {
                     o.loadVideoById(ytplayer_playlist[ytplayer_playitem]);
                 }
 
+                // Ensure navigation uses the existing iframe element with the correct referrer policy
+                const targetFrame = document.getElementById('ytpl-frame');
+                if (targetFrame) {
+                    targetFrame.src = this.href + '&origin=' + encodeURIComponent(window.location.origin);
+                }
 
                 let els = document.querySelectorAll('#ytplayer_div2 a');
                 for (var n = 0; n < els.length; n++) {
@@ -102,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.matches('.yt-api-video-item .yt-api-video-thumb img')) {
             let ytUri = 'https://www.youtube.com';
 
-            document.getElementById('vid_frame').src = ytUri + '/embed/' + event.target.dataset.id + '?autoplay=1&rel=0&showinfo=1&autohide=1';
+            document.getElementById('vid_frame').src = ytUri + '/embed/' + event.target.dataset.id + '?autoplay=1&rel=0&showinfo=1&autohide=1&origin=' + encodeURIComponent(window.location.origin);
         }
     });
 
@@ -117,12 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
 
                 const videoId = this.dataset.videoId;
-                const videoUrl = `https://www.youtube.com/embed/${videoId}`;
+                const videoUrl = `https://www.youtube.com/embed/${videoId}?origin=${encodeURIComponent(window.location.origin)}`;
 
                 const lightboxContainer = document.getElementById('ytpp-lightbox-container');
                 const lightboxVideo = document.getElementById('ytpp-lightbox-video');
 
-                lightboxVideo.innerHTML = `<iframe width="560" height="315" src="${videoUrl}" frameborder="0" allowfullscreen></iframe>`;
+                lightboxVideo.innerHTML = `<iframe width="560" height="315" src="${videoUrl}" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allowfullscreen></iframe>`;
                 lightboxContainer.style.display = 'flex';
             });
         });
