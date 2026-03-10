@@ -3,7 +3,7 @@
  * Plugin Name: Playlist Player for YouTube
  * Plugin URI: https://getbutterfly.com/wordpress-plugins/
  * Description: Display a YouTube player (with an optional playlist) on any post or page using a simple shortcode.
- * Version: 4.7.4
+ * Version: 4.8.0
  * Author: Ciprian Popescu
  * Author URI: https://getbutterfly.com/
  * License: GPL3
@@ -11,7 +11,7 @@
  * Text Domain: youtube-playlist-player
  *
  * Playlist Player for YouTube
- * Copyright (C) 2013-2025 Ciprian Popescu (getbutterfly@gmail.com)
+ * Copyright (C) 2013-2026 Ciprian Popescu (getbutterfly@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,22 +38,14 @@ require 'includes/settings.php';
  * Register/enqueue plugin scripts and styles (front-end)
  */
 function ytpp_pss() {
-    wp_register_style( 'ytpp', plugins_url( 'css/style.min.css', __FILE__ ), [], '4.7.4' );
+    wp_register_style( 'ytpp', plugins_url( 'css/style.min.css', __FILE__ ), [], '4.8.0' );
 
-    wp_register_script( 'ytpp', plugins_url( 'js/ytpp-main.min.js', __FILE__ ), [], '4.7.4', true );
+    wp_register_script( 'ytpp', plugins_url( 'js/ytpp-main.min.js', __FILE__ ), [], '4.8.0', true );
 
     if ( (int) get_option( 'ytpp_iframe_fix' ) === 1 ) {
-        wp_register_script( 'ytpp-fluid-vids', plugins_url( 'js/ytpp-fluid-vids.min.js', __FILE__ ), [], '4.7.4', true );
+        wp_register_script( 'ytpp-fluid-vids', plugins_url( 'js/ytpp-fluid-vids.min.js', __FILE__ ), [], '4.8.0', true );
     }
 }
-
-/**
- * Register/enqueue plugin scripts and styles (back-end)
- */
-function ytpp_enqueue_scripts() {
-    wp_enqueue_style( 'ytpp', plugins_url( 'css/admin.css', __FILE__ ), [], '4.7.4' );
-}
-
 
 /**
  * Install/uninstall plugin
@@ -66,7 +58,6 @@ register_uninstall_hook( __FILE__, 'ytpp_uninstall' );
  */
 add_action( 'admin_menu', 'ytpp_admin' );
 add_action( 'wp_enqueue_scripts', 'ytpp_pss' );
-add_action( 'admin_enqueue_scripts', 'ytpp_enqueue_scripts' );
 
 /**
  * Add plugin shortcodes

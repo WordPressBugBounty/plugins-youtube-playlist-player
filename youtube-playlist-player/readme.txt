@@ -3,9 +3,9 @@ Contributors: butterflymedia
 Donate link: https://www.buymeacoffee.com/wolffe
 Tags: youtube, player, playlist, video, carousel
 Requires at least: 4.9
-Tested up to: 6.9
+Tested up to: 6.9.1
 Requires PHP: 7.0
-Stable tag: 4.7.4
+Stable tag: 4.8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -60,6 +60,16 @@ Check out more [WordPress plugins here](https://getbutterfly.com/wordpress-plugi
 6. Help/Usage
 
 == Changelog ==
+
+= 4.8.0 =
+* PERFORMANCE: Cache YouTube API responses using transients to avoid API calls on every page load
+* PERFORMANCE: Replace `file_get_contents()` with `wp_remote_get()` for remote API requests
+* PERFORMANCE: Remove admin stylesheet and use native WordPress styles
+* PERFORMANCE: Load admin assets only on the plugin settings page
+* SECURITY: Escape YouTube API output in channel feed shortcode
+* FIX: Add `allow="autoplay"` attribute to iframes for modern browser autoplay support
+* FIX: Add autoplay to lightbox player in channel feed
+* UPDATE: Add error handling for failed YouTube API requests
 
 = 4.7.4 =
 * FIX: Add `referrerpolicy="strict-origin-when-cross-origin"` to YouTube iframes to ensure HTTP Referer is sent per YouTube embedded player requirements

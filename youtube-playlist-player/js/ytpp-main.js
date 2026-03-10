@@ -123,12 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
 
                 const videoId = this.dataset.videoId;
-                const videoUrl = `https://www.youtube.com/embed/${videoId}?origin=${encodeURIComponent(window.location.origin)}`;
+                const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&origin=${encodeURIComponent(window.location.origin)}`;
 
                 const lightboxContainer = document.getElementById('ytpp-lightbox-container');
                 const lightboxVideo = document.getElementById('ytpp-lightbox-video');
 
-                lightboxVideo.innerHTML = `<iframe width="560" height="315" src="${videoUrl}" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allowfullscreen></iframe>`;
+                lightboxVideo.innerHTML = `<iframe width="560" height="315" src="${videoUrl}" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                 lightboxContainer.style.display = 'flex';
             });
         });
