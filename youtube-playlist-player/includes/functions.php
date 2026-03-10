@@ -141,7 +141,15 @@ function ytpp_get_channel_videos( $channel_ids, $max_results = 100 ) {
             'https://www.googleapis.com/youtube/v3/search'
         );
 
-        $response = wp_remote_get( $url, [ 'timeout' => 10 ] );
+        $response = wp_remote_get(
+            $url,
+            [
+                'timeout' => 10,
+                'headers' => [
+                    'Referer' => home_url(),
+                ],
+            ]
+        );
 
         if ( is_wp_error( $response ) ) {
             continue;
@@ -176,7 +184,9 @@ function ytpp_get_channel_videos( $channel_ids, $max_results = 100 ) {
         }
     }
 
-    set_transient( $cache_key, $videos, HOUR_IN_SECONDS );
+    if ( ! empty( $videos ) ) {
+        set_transient( $cache_key, $videos, HOUR_IN_SECONDS );
+    }
 
     return $videos;
 }

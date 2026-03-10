@@ -5,7 +5,7 @@ Tags: youtube, player, playlist, video, carousel
 Requires at least: 4.9
 Tested up to: 6.9.1
 Requires PHP: 7.0
-Stable tag: 4.8.0
+Stable tag: 4.8.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -60,6 +60,10 @@ Check out more [WordPress plugins here](https://getbutterfly.com/wordpress-plugi
 6. Help/Usage
 
 == Changelog ==
+
+= 4.8.1 =
+* FIX: Prevent caching of empty API responses to avoid persistent blank channel feeds
+* FIX: Send `Referer` header with YouTube API requests for compatibility with referrer-restricted API keys
 
 = 4.8.0 =
 * PERFORMANCE: Cache YouTube API responses using transients to avoid API calls on every page load
