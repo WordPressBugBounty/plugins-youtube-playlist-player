@@ -1,11 +1,11 @@
 ﻿=== Playlist Player for YouTube ===
 Contributors: butterflymedia
-Donate link: https://www.buymeacoffee.com/wolffe
+Donate link: https://buymeacoffee.com/wolffe
 Tags: youtube, player, playlist, video, carousel
 Requires at least: 4.9
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 4.8.2
+Stable tag: 4.8.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -43,6 +43,7 @@ Check out the [official Playlist Player for YouTube website](https://getbutterfl
 Check out a [Property Videos & Virtual Tours](https://kmproperty.ie/buy/videos-virtual-tours/) demo.
 
 Check out more [WordPress plugins here](https://getbutterfly.com/wordpress-plugins/).
+Explore more [WordPress Plugins](https://getbutterfly.com/wordpress-plugins/).
 
 == Installation ==
 
@@ -60,8 +61,13 @@ Check out more [WordPress plugins here](https://getbutterfly.com/wordpress-plugi
 6. Help/Usage
 
 == Changelog ==
+= 4.8.3 =
+* UPDATE: Tested up to WordPress 7.1
+* DOCS: Add WordPress Plugins directory and donation link
+
 = 4.8.2 =
-* UPDATE: Tested up to WordPress 7.0
+* UPDATE: Tested up to WordPress 7.1
+* DOCS: Add WordPress Plugins directory link
 
 
 = 4.8.1 =
