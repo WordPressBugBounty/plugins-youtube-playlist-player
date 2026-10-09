@@ -1,9 +1,11 @@
 <?php
 /**
- * Plugin Name: Playlist Player for YouTube
+ * Plugin Name: Playlist Player for YouTube – Fast, Privacy-Friendly Playlists & Channel Feed
  * Plugin URI: https://getbutterfly.com/wordpress-plugins/
- * Description: Display a YouTube player (with an optional playlist) on any post or page using a simple shortcode.
- * Version: 4.8.3
+ * Description: Fast, privacy-friendly YouTube playlists and channel feeds. Videos only load when a visitor clicks play.
+ * Version: 4.9.0
+ * Requires at least: 6.5
+ * Requires PHP: 7.4
  * Author: Ciprian Popescu
  * Author URI: https://getbutterfly.com/
  * License: GPL3
@@ -31,6 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+define( 'YTPP_VERSION', '4.9.0' );
+
 require 'includes/functions.php';
 require 'includes/settings.php';
 
@@ -38,13 +42,8 @@ require 'includes/settings.php';
  * Register/enqueue plugin scripts and styles (front-end)
  */
 function ytpp_pss() {
-    wp_register_style( 'ytpp', plugins_url( 'css/style.min.css', __FILE__ ), [], '4.8.3' );
-
-    wp_register_script( 'ytpp', plugins_url( 'js/ytpp-main.min.js', __FILE__ ), [], '4.8.3', true );
-
-    if ( (int) get_option( 'ytpp_iframe_fix' ) === 1 ) {
-        wp_register_script( 'ytpp-fluid-vids', plugins_url( 'js/ytpp-fluid-vids.min.js', __FILE__ ), [], '4.8.3', true );
-    }
+    wp_register_style( 'ytpp', plugins_url( 'css/ytpp.css', __FILE__ ), [], YTPP_VERSION );
+    wp_register_script_module( 'ytpp', plugins_url( 'js/ytpp.js', __FILE__ ), [], YTPP_VERSION );
 }
 
 /**

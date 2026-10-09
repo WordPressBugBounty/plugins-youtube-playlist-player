@@ -1,49 +1,66 @@
-﻿=== Playlist Player for YouTube ===
+﻿=== Playlist Player for YouTube – Fast, Privacy-Friendly Playlists & Channel Feed ===
 Contributors: butterflymedia
 Donate link: https://buymeacoffee.com/wolffe
-Tags: youtube, player, playlist, video, carousel
-Requires at least: 4.9
-Tested up to: 7.1
-Requires PHP: 7.0
-Stable tag: 4.8.3
+Tags: youtube, playlist, video, channel feed, lazy load
+Requires at least: 6.5
+Tested up to: 7.1.3
+Requires PHP: 7.4
+Stable tag: 4.9.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Display a YouTube player (with an optional playlist) on any post or page using a simple shortcode.
+For bloggers and businesses who want YouTube playlists and channel feeds that load fast and only contact YouTube when visitors press play.
 
 == Description ==
 
-Display a YouTube player (with an optional playlist) on any post or page using a simple shortcode. The plugin supports a static YouTube player (no video title) and a dynamic one (video title) using the YouTube Data API v3.
+Show a YouTube player with a playlist, or the latest videos from your channel, on any post or page with one shortcode. Videos are click-to-load: visitors see a lightweight thumbnail, and nothing is requested from YouTube until they press play. That keeps pages fast and makes it easier to respect cookie consent.
 
-Embedded players must have a viewport that is at least 200px by 200px. If the player displays controls, it must be large enough to fully display the controls without shrinking the viewport below the minimum size. We recommend 16:9 players be at least 480 pixels wide and 270 pixels tall.
+* Click-to-load players for faster pages and better privacy, with an optional notice under the player.
+* Paste full YouTube URLs or video IDs. Add `?t=90` to a URL to start that video at 90 seconds.
+* Three layouts: playlist below the player, beside it, or a grid that opens videos in an accessible lightbox.
+* Auto-advance to the next video, several players on the same page, and keyboard-friendly playlists.
+* Your YouTube API key stays on the server. Video titles and channel feeds are fetched and cached by WordPress.
+* Optional `VideoObject` structured data for search engines.
+* Privacy-enhanced (youtube-nocookie.com) mode.
+* A shortcode generator in Settings, so you don't need to remember any attributes.
 
-The YouTube player is responsive and it will work on all themes and screen sizes!
+### Playlist (no API key needed)
 
-* Uses a simple shortcode which can be used in posts, pages, custom post types, widgets, reusable blocks.
-* Uses the default YouTube Embed Code (iframe) with optional privacy-enhanced mode.
-* Uses correct aspect ratio for videos using a Fluid Video technology.
-* Uses native HTML5 Lazy loading.
-* Used modern code and is optimised for speed.
-* 100% free with no ads inside.
+Example: `[yt_playlist mainid="xcJtL7QggTI" vdid="xcJtL7QggTI, AheYbU8J5Tc, X0zGS4-UKgg, 74SZXCQb44s, 2M0XCH9q3YI"]`
 
-### Static Playlist Player for YouTube
+### Playlist with video titles (YouTube Data API v3)
 
-Example: `[yt_playlist mainid="xcJtL7QggTI" vdid="xcJtL7QggTI, AheYbU8J5Tc, X0zGS4-UKgg, 74SZXCQb44s, 2M0XCH9q3YI, CTNgVQGLy24, B8RpvoHsgI8"]`
+Example: `[yt_playlist_v3 mainid="xcJtL7QggTI" vdid="xcJtL7QggTI, AheYbU8J5Tc, X0zGS4-UKgg" layout="side" autoadvance="1"]`
 
-### YouTube V3 API Playlist Player
+### YouTube channel feed with lightbox player
 
-Example: `[yt_playlist_v3 mainid="xcJtL7QggTI" vdid="xcJtL7QggTI, AheYbU8J5Tc, X0zGS4-UKgg, 74SZXCQb44s, 2M0XCH9q3YI, CTNgVQGLy24, B8RpvoHsgI8"]`
+Example: `[yt_feed channels="UCpVm7bg6pXKo1Pr6k5kxG9A" results="9" offset="0"]`
 
-### YouTube Channel Feed with Lightbox Player
+### Optional attributes
 
-Example: `[yt_feed channels="UCpVm7bg6pXKo1Pr6k5kxG9A" results="9"]`
+* `layout="below|side|grid"`
+* `start="90"` (main video start time in seconds)
+* `autoadvance="1"`
+* `schema="1"` (VideoObject structured data, needs the API key)
+* `offset="3"` (channel feed only)
 
 Check out the [official Playlist Player for YouTube website](https://getbutterfly.com/wordpress-plugins/youtube-playlist-player/) and a [Playlist Player for YouTube demo](https://getbutterfly.com/wordpress-plugins/youtube-playlist-player/).
 
 Check out a [Property Videos & Virtual Tours](https://kmproperty.ie/buy/videos-virtual-tours/) demo.
 
-Check out more [WordPress plugins here](https://getbutterfly.com/wordpress-plugins/).
-Explore more [WordPress Plugins](https://getbutterfly.com/wordpress-plugins/).
+Check out more [WordPress plugins here](https://getbutterfly.com/wordpress-plugins/). Need cookie consent for YouTube? Try [WP Google Consent Platform (GCP)](https://getbutterfly.com/wordpress-plugins/wp-gcp-a-wordpress-plugin-for-google-consent-mode-v2/).
+
+### From the same author
+
+* [Active Contacts - WordPress CRM & Follow-up Plugin](https://getbutterfly.com/wordpress-plugins/active-contacts/)
+* [LazyClone - Copy a WordPress Site Without FTP](https://getbutterfly.com/wordpress-plugins/lazyclone/)
+* [Lighthouse - WordPress Performance & Speed Optimization Plugin](https://getbutterfly.com/wordpress-plugins/lighthouse/)
+* [Active Analytics - Privacy-Friendly WordPress Analytics Plugin](https://getbutterfly.com/wordpress-plugins/active-analytics/)
+* [ImagePress - WordPress Image Gallery & Community Photo Plugin](https://getbutterfly.com/wordpress-plugins/imagepress/)
+* [eCards - WordPress eCard Plugin with Email Designer](https://getbutterfly.com/wordpress-plugins/wordpress-ecards-plugin/)
+* [Repeater for Gravity Forms - Repeater Field Add-on](https://getbutterfly.com/wordpress-plugins/gravity-forms-repeater-plugin/)
+* [Fixtures & Results - WordPress Sports League & GAA Club Plugin](https://getbutterfly.com/wordpress-plugins/fixtures-and-results/)
+* [WP Google Consent Platform (GCP)](https://getbutterfly.com/wordpress-plugins/wp-gcp-a-wordpress-plugin-for-google-consent-mode-v2/)
 
 == Installation ==
 
@@ -61,6 +78,19 @@ Explore more [WordPress Plugins](https://getbutterfly.com/wordpress-plugins/).
 6. Help/Usage
 
 == Changelog ==
+= 4.9.0 =
+* SECURITY: The YouTube API key is no longer printed in the page; playlist titles are fetched and cached server-side
+* FEATURE: Click-to-load players (no YouTube requests until a visitor presses play), with an optional notice
+* FEATURE: Accept full YouTube URLs (watch, youtu.be, shorts, embed, live) and `?t=` start times
+* FEATURE: New `layout`, `start`, `autoadvance` and `schema` attributes, and `offset` for channel feeds
+* FEATURE: Several players on the same page
+* FEATURE: Shortcode generator in Settings
+* FIX: Channel feeds requested 100 results by default, above the YouTube API limit of 50; the default is now 9
+* ACCESSIBILITY: Playlist items are buttons with labels, iframes have titles, the lightbox is a native dialog (Esc closes it, focus is kept inside)
+* PERFORMANCE: One small ES module, loaded only on pages with a player
+* REMOVED: The "fix for older browsers" option and its script
+* UPDATE: Requires WordPress 6.5 (script modules) and PHP 7.4
+
 = 4.8.3 =
 * UPDATE: Tested up to WordPress 7.1
 * DOCS: Add WordPress Plugins directory and donation link
@@ -339,3 +369,4 @@ Explore more [WordPress Plugins](https://getbutterfly.com/wordpress-plugins/).
 
 = 3.0.0 =
 * Initial release
+

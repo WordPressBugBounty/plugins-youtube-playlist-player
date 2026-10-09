@@ -15,6 +15,7 @@ function ytpp_settings() {
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=dashboard' ) ); ?>" class="nav-tab <?php echo $tab === 'dashboard' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Dashboard', 'youtube-playlist-player' ); ?></a>
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=settings' ) ); ?>" class="nav-tab <?php echo $tab === 'settings' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'General Settings', 'youtube-playlist-player' ); ?></a>
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=api' ) ); ?>" class="nav-tab <?php echo $tab === 'api' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'YouTube API', 'youtube-playlist-player' ); ?></a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=generator' ) ); ?>" class="nav-tab <?php echo $tab === 'generator' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Shortcode Generator', 'youtube-playlist-player' ); ?></a>
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=ytpp&tab=help' ) ); ?>" class="nav-tab <?php echo $tab === 'help' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Help/Usage', 'youtube-playlist-player' ); ?></a>
         </h2>
 
@@ -56,7 +57,7 @@ function ytpp_settings() {
                 update_option( 'ytpp_info', isset( $_POST['ytpp_info'] ) ? intval( $_POST['ytpp_info'] ) : 0 );
                 update_option( 'ytpp_controls', isset( $_POST['ytpp_controls'] ) ? intval( $_POST['ytpp_controls'] ) : 0 );
                 update_option( 'ytpp_privacy', isset( $_POST['ytpp_privacy'] ) ? intval( $_POST['ytpp_privacy'] ) : 0 );
-                update_option( 'ytpp_iframe_fix', isset( $_POST['ytpp_iframe_fix'] ) ? intval( $_POST['ytpp_iframe_fix'] ) : 0 );
+                update_option( 'ytpp_facade_notice', isset( $_POST['ytpp_facade_notice'] ) ? wp_kses_post( wp_unslash( $_POST['ytpp_facade_notice'] ) ) : '' );
 
                 echo '<div class="updated notice is-dismissible"><p>Settings updated!</p></div>';
             }
@@ -80,11 +81,13 @@ function ytpp_settings() {
                     <br><small>When you turn on privacy-enhanced mode, YouTube won't store information about visitors on your website unless they play the video.</small>
                 </p>
 
-                <h3><?php esc_html_e( 'Display Settings', 'youtube-playlist-player' ); ?></h3>
+                <h3><?php esc_html_e( 'Privacy', 'youtube-playlist-player' ); ?></h3>
 
+                <p>Videos are click-to-load: nothing is requested from YouTube until a visitor presses play.</p>
                 <p>
-                    <input type="checkbox" name="ytpp_iframe_fix" id="ytpp_iframe_fix" value="1" <?php checked( 1, (int) get_option( 'ytpp_iframe_fix' ) ); ?>> <label for="ytpp_iframe_fix">Enable fix for older browsers</label>
-                    <br><small>Use this option to fix player height on older browsers, or browsers not supporting the <code>aspect-ratio</code> CSS property.</small>
+                    <label for="ytpp_facade_notice">Notice shown under the player (optional)</label><br>
+                    <input type="text" name="ytpp_facade_notice" id="ytpp_facade_notice" class="large-text" value="<?php echo esc_attr( get_option( 'ytpp_facade_notice' ) ); ?>" placeholder="Playing a video loads it from YouTube, which may set cookies.">
+                    <br><small>Developers can also filter it with <code>ytpp_facade_notice</code>.</small>
                 </p>                
 
                 <p><input type="submit" name="info_update1" class="button button-primary" value="<?php esc_html_e( 'Save Changes', 'youtube-playlist-player' ); ?>"></p>
@@ -131,9 +134,116 @@ function ytpp_settings() {
                 <p><b>Note:</b> Shortcodes can be added to posts, pages, custom post types, widgets or reusable blocks.</p>
 
                 <hr>
-                <p><code>mainid</code> is the main video ID and <code>vdid</code> is the list of playlist videos (also include the main video ID).</p>
-                <p>Style the <code>.ytpp-main</code> element to change the videos (and playlist) container.</p>
+                <p><code>mainid</code> is the main video and <code>vdid</code> is the list of playlist videos. Both accept video IDs or full YouTube URLs (watch, youtu.be, shorts, embed), separated by commas. A <code>?t=90</code> in a URL starts that video at 90 seconds.</p>
+                <h4>Optional attributes</h4>
+                <ul>
+                    <li><code>layout="below|side|grid"</code>: playlist under the player (default), beside it, or a grid that opens videos in a lightbox. <code>[yt_feed]</code> defaults to <code>grid</code>.</li>
+                    <li><code>start="90"</code>: start the main video at 90 seconds.</li>
+                    <li><code>autoadvance="1"</code>: play the next video when one ends.</li>
+                    <li><code>schema="1"</code>: output <code>VideoObject</code> structured data (needs the YouTube API key).</li>
+                    <li><code>offset="3"</code>: <code>[yt_feed]</code> only, skip the 3 most recent videos. <code>results</code> is capped at 50 by YouTube.</li>
+                </ul>
+                <p>Style the <code>.ytpp-main</code> element to change the videos (and playlist) container. Set <code>--ytpp-accent</code> to change the highlight colour.</p>
             </div>
+            <?php
+        } elseif ( (string) $tab === 'generator' ) {
+            ?>
+            <h3><?php esc_html_e( 'Shortcode Generator', 'youtube-playlist-player' ); ?></h3>
+            <form id="ytpp-generator">
+                <table class="form-table" role="presentation">
+                    <tr>
+                        <th scope="row"><label for="ytpp-gen-type">Player</label></th>
+                        <td>
+                            <select id="ytpp-gen-type" name="type">
+                                <option value="yt_playlist">Playlist (no API key needed)</option>
+                                <option value="yt_playlist_v3">Playlist with titles (YouTube API)</option>
+                                <option value="yt_feed">Channel feed (YouTube API)</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="ytpp-gen-videos">Videos or channel IDs</label></th>
+                        <td>
+                            <textarea id="ytpp-gen-videos" name="videos" class="large-text" rows="4" placeholder="https://www.youtube.com/watch?v=xcJtL7QggTI&#10;https://youtu.be/AheYbU8J5Tc"></textarea>
+                            <br><small>One per line. Paste full URLs or IDs. For a channel feed, paste channel IDs (they start with <code>UC</code>).</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="ytpp-gen-layout">Layout</label></th>
+                        <td>
+                            <select id="ytpp-gen-layout" name="layout">
+                                <option value="">Default</option>
+                                <option value="below">Playlist below</option>
+                                <option value="side">Playlist beside</option>
+                                <option value="grid">Grid with lightbox</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Options</th>
+                        <td>
+                            <label><input type="checkbox" name="autoadvance" value="1"> Play the next video automatically</label><br>
+                            <label><input type="checkbox" name="schema" value="1"> Add VideoObject structured data</label><br>
+                            <label>Results <input type="number" name="results" min="1" max="50" class="small-text"></label>
+                            <label>Offset <input type="number" name="offset" min="0" max="49" class="small-text"></label>
+                            <br><small>Results and offset apply to channel feeds only.</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="ytpp-gen-output">Shortcode</label></th>
+                        <td>
+                            <input type="text" id="ytpp-gen-output" class="large-text code" readonly>
+                            <p><button type="button" class="button button-primary" id="ytpp-gen-copy">Copy shortcode</button> <span id="ytpp-gen-status" role="status"></span></p>
+                            <div id="ytpp-gen-preview" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <script type="module">
+                const form = document.getElementById('ytpp-generator');
+                const output = document.getElementById('ytpp-gen-output');
+                const preview = document.getElementById('ytpp-gen-preview');
+                const videoId = (value) => value.match(/(?:v=|youtu\.be\/|\/embed\/|\/shorts\/|\/live\/|^)([\w-]{11})(?![\w-])/)?.[1];
+                const time = (value) => value.match(/[?&](?:t|start)=(\d+)/)?.[1];
+
+                const build = () => {
+                    const data = new FormData(form);
+                    const type = data.get('type');
+                    const lines = data.get('videos').split(/[\s,]+/).filter(Boolean);
+                    const attrs = [];
+
+                    if (type === 'yt_feed') {
+                        attrs.push(`channels="${lines.filter((line) => /^UC[\w-]{22}$/.test(line)).join(',')}"`);
+                        data.get('results') && attrs.push(`results="${data.get('results')}"`);
+                        data.get('offset') && attrs.push(`offset="${data.get('offset')}"`);
+                        preview.replaceChildren();
+                    } else {
+                        const videos = lines.map((line) => [videoId(line), time(line)]).filter(([id]) => id);
+                        const list = videos.map(([id, t]) => (t ? `https://youtu.be/${id}?t=${t}` : id));
+
+                        attrs.push(`mainid="${list[0] ?? ''}"`, `vdid="${list.join(',')}"`);
+                        preview.replaceChildren(...videos.map(([id]) => Object.assign(document.createElement('img'), {
+                            src: `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
+                            alt: '',
+                            width: 160,
+                        })));
+                    }
+
+                    data.get('layout') && attrs.push(`layout="${data.get('layout')}"`);
+                    data.get('autoadvance') && attrs.push('autoadvance="1"');
+                    data.get('schema') && attrs.push('schema="1"');
+
+                    output.value = `[${type} ${attrs.join(' ')}]`;
+                };
+
+                form.addEventListener('input', build);
+                build();
+
+                document.getElementById('ytpp-gen-copy').addEventListener('click', async () => {
+                    await navigator.clipboard.writeText(output.value);
+                    document.getElementById('ytpp-gen-status').textContent = 'Copied!';
+                });
+            </script>
             <?php
         }
         ?>
